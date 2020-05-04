@@ -1,9 +1,7 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
 
-<html>
-<body>
+<h1>Product: {{  object.title }}</h1>
 
-<h1>Detail View</h1>
-
-</body>
-</html>
+{{ block.super}}
+{% endblock %}

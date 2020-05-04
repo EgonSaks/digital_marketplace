@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block style%}
+h1 {
+  color: green;
+}
+{% endblock %}
+{% block content %}
 
-<html>
-<body>
+<h1>List View</h1>
 
-  <h1>List View</h1>
+{{ queryset }}
 
-</body>
-</html>
+{% endblock %}
