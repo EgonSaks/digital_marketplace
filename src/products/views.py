@@ -1,19 +1,19 @@
 from django.shortcuts import render
+from django.http import Http404
 
 # Create your views here.
 from .models import Product
 
-def detail_view(request):
-    # 1 item
-    if request.user.is_authenticated:
-        product = Product.objects.all().first()
+def detail_view(request, object_id=None):
+    if object_id is not None:
+        product = Product.objects.get(id=object_id)
         template = "detail_view.html"
         context = {
-            "object" : product
-        }
+                    "object" : product
+                }
     else:
-        template = "not_found.html"
-        context = {}
+        raise Http404
+
     return render(request, template, context)
 
 def list_view(request):
