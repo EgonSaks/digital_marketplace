@@ -9,8 +9,6 @@ def detail_slug_view(request, slug=None):
         product = get_object_or_404(Product, slug=slug)
     except Product.MultipleObjectsReturned:
         product = Product.objects.filter(slug=slug).order_by("title").first()
-    # print(slug)
-    # product = 1
     template = "detail_view.html"
     context = {
             "object" : product
