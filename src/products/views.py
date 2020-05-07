@@ -20,7 +20,6 @@ def create_view(request):
         }
     return render(request, template, context)
 
-
 def detail_slug_view(request, slug=None):
     try:
         product = get_object_or_404(Product, slug=slug)
