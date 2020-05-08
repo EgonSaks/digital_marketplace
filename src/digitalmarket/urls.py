@@ -20,6 +20,7 @@ from products import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create/', views.create_view, name="create_view"),
+    path('detail/<int:object_id>/edit/', views.update_view, name="update_view"),
     path('detail/<int:object_id>/', views.detail_view, name="detail_view"),
     path('detail/<slug>/', views.detail_slug_view, name="detail_slug_view"),
     path('list/', views.list_view, name="list_view"),
