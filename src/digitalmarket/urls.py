@@ -17,7 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from products import views
 
-from products.views import ProductListView
+from products.views import (
+        ProductDetailView,
+        ProductListView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +29,10 @@ urlpatterns = [
     path('detail/<int:object_id>/', views.detail_view, name="detail_view"),
     path('detail/<slug>/', views.detail_slug_view, name="detail_slug_view"),
     path('list/', views.list_view, name="list_view"),
-    path('products/list/', ProductListView.as_view(), name="product_list_view"),
+    path('products/', ProductListView.as_view(), name="product_list_view"),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name="product_detail_view"),
+    path('products/<slug>/', ProductDetailView.as_view(), name="product_detail_slug_view"),
+
+
 
 ]
