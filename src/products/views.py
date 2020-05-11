@@ -1,9 +1,26 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
+from django.views.generic import ListView
 
 # Create your views here.
 from .forms import ProducModelForm
 from .models import Product
+
+class ProductListView(ListView):
+    model = Product
+    # template_name = "list_view.html"
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProductListView, self).get_context_data(**kwargs)
+    #     print(context)
+    #     context["queryset"] = self.get_queryset()
+    #     return context
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(ProductListView, self).get_queryset(**kwargs)
+        #qs = qs.filter(title__icontains="Picture v3")
+        return qs
+
 
 def create_view(request):
     #FORM
@@ -55,6 +72,7 @@ def detail_view(request, object_id=None):
 
 def list_view(request):
     # list of items
+    print(request)
     queryset = Product.objects.all()
     template = "list_view.html"
     context = {
