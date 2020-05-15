@@ -1,13 +1,15 @@
 from django import forms
 from .models import Product
 
+from django.utils.text import slugify
+
 PUBLISH_CHOISES = (
     #('', ""),
     ('publish', "Publish"),
     ('draft', "Draft"),
 )
 
-class ProducModelForm(forms.ModelForm):
+class ProductModelForm(forms.ModelForm):
     publish = forms.ChoiceField(widget=forms.RadioSelect,choices=PUBLISH_CHOISES, required=False)
     title = forms.CharField(label='Your Title', widget=forms.TextInput(
         attrs={
@@ -31,6 +33,15 @@ class ProducModelForm(forms.ModelForm):
             "description",
             "price",
         ]
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(ProductModelForm, self).clean(*args, **kwargs)
+        #title = cleaned_data.get("title")
+        # slug = slugify(title)
+        # qs = Product.objects.filter(slug=slug).exists()
+        # if qs:
+        #     raise forms.ValidationError("Title is taken, new title is needed. Please try again")
+        return cleaned_data
 
     def clean_price(self):
         price = self.cleaned_data.get("price")

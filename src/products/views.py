@@ -8,20 +8,20 @@ from django.views.generic import ListView
 
 from digitalmarket.mixins import MultiSlugMixin, SubmitBtnMixin
 
-from .forms import ProducModelForm
+from .forms import ProductModelForm
 from .models import Product
 
 class ProductCreateView(CreateView):
     model = Product
     template_name = "form.html"
-    form_class = ProducModelForm
+    form_class = ProductModelForm
     success_url = "/products/add/"
     submit_btn = "Add Product"
 
 class ProductUpdateView(MultiSlugMixin,UpdateView):
     model = Product
     template_name = "form.html"
-    form_class = ProducModelForm
+    form_class = ProductModelForm
     success_url = "/products/"
     submit_btn = "Update Product"
 
@@ -38,7 +38,7 @@ class ProductListView(ListView):
 
 def create_view(request):
     #FORM
-    form = ProducModelForm(request.POST or None)
+    form = ProductModelForm(request.POST or None)
     if form.is_valid():
         instance = form.save(commit=False)
         instance.sales_price = instance.price
@@ -52,7 +52,7 @@ def create_view(request):
 
 def update_view(request, object_id=None):
     product = get_object_or_404(Product, id=object_id)
-    form = ProducModelForm(request.POST or None, instance = product)
+    form = ProductModelForm(request.POST or None, instance = product)
     if form.is_valid():
         instance = form.save(commit=False)
         #instance.sales_price = instance.price
