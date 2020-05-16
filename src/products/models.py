@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from django.db import models
 from django.db.models.signals import pre_save, post_save
 from django.utils.text import slugify
@@ -5,6 +7,8 @@ from django.utils.text import slugify
 # Create your models here.
 
 class Product(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    managers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='managers_product', blank=True)
     title = models.CharField(max_length=150)
     slug = models.SlugField(blank=True,  unique=True)
     description = models.TextField(max_length=200, null=True)
@@ -22,7 +26,7 @@ def create_slug(instance, new_slug = None):
     slug = slugify(instance.title)
     if new_slug is not None:
         slug = new_slug
-        
+
     qs = Product.objects.filter(slug=slug)
     exists = qs.exists()
     if exists:
