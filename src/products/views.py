@@ -18,12 +18,27 @@ class ProductCreateView(CreateView):
     success_url = "/products/add/"
     submit_btn = "Add Product"
 
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.user = user
+        valid_data = super(ProductCreateView, self).form_valid(form)
+        form.instance.managers.add(user)
+        return valid_data
+
 class ProductUpdateView(MultiSlugMixin,UpdateView):
     model = Product
     template_name = "form.html"
     form_class = ProductModelForm
     success_url = "/products/"
     submit_btn = "Update Product"
+
+    def get_object(self, *args, **kwargs):
+        user = self.request.user
+        obj = super(ProductUpdateView, self).get_object(*args, **kwargs)
+        if obj.user == user or user in obj.managers.all():
+            return obj
+        else:
+            raise Http404
 
 class ProductDetailView(MultiSlugMixin, DetailView):
     model = Product
