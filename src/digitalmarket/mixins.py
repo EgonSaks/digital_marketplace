@@ -14,7 +14,6 @@ class StaffRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
-
 class MultiSlugMixin(object):
     model = None
 
