@@ -141,3 +141,4 @@ STATICFILES_DIRS = (
 #Team doesn´t manage
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "staticfiles") #CDN /AWS S3 Bucket
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media")
+PROTECTED_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "protected")
