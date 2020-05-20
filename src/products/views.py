@@ -1,5 +1,7 @@
 
-from django.http import Http404
+import os
+from django.conf import settings
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -43,6 +45,18 @@ class ProductUpdateView(ProductManagerMixin, SubmitBtnMixin, MultiSlugMixin,Upda
 
 class ProductDetailView(MultiSlugMixin, DetailView):
     model = Product
+
+class ProductDownloadView(MultiSlugMixin, DetailView):
+    model = Product
+
+    def get(self, request, *arg, **kwargs):
+        obj = self.get_object()
+        filepath = os.path.join(settings.PROTECTED_ROOT, obj.media.path)
+        response = HttpResponse(filepath, content_type='application/force-download')
+        response["Content-Disposition"] ="attachment; filename=%s" %(obj.media.name)
+        response["X-SendFile"] = str(obj.media.name)
+        return response
+
 
 class ProductListView(ListView):
     model = Product
