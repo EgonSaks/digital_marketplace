@@ -1,7 +1,9 @@
 
 import os
+from wsgiref.util import FileWrapper
+from mimetypes import guess_type
+from django.http import Http404, StreamingHttpResponse
 from django.conf import settings
-from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -49,14 +51,20 @@ class ProductDetailView(MultiSlugMixin, DetailView):
 class ProductDownloadView(MultiSlugMixin, DetailView):
     model = Product
 
-    def get(self, request, *arg, **kwargs):
-        obj = self.get_object()
-        filepath = os.path.join(settings.PROTECTED_ROOT, obj.media.path)
-        response = HttpResponse(filepath, content_type='application/force-download')
-        response["Content-Disposition"] ="attachment; filename=%s" %(obj.media.name)
-        response["X-SendFile"] = str(obj.media.name)
+    def get(self,request,*args,**kwargs):
+        obj=self.get_object()
+        filepath = os.path.join(settings.PROTECTED_ROOT,obj.media.path)
+        guessed_type = guess_type(filepath)[0]
+        chunk_size = 8192
+        wrapper=FileWrapper(open(filepath, 'rb'),chunk_size)
+        mimetype = 'application/force-download'
+        if guessed_type:
+            mimetype=guessed_type
+        response = StreamingHttpResponse(wrapper,content_type=mimetype)
+        if not request.GET.get("preview"):
+            response["Content-Disposition"]="attachment; filename=%s" %(obj.media.name)
+        response["X-SendFile"]=str(obj.media.name)
         return response
-
 
 class ProductListView(ListView):
     model = Product
