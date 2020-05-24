@@ -37,6 +37,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+        ordering = ['title']
 
 def create_slug(instance, new_slug = None):
     slug = slugify(instance.title)
