@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load get_thumbnail %}
 {% block content %}
 
 <ul>
@@ -9,7 +10,7 @@
         {{ product_instance.thumbnail_set.all }}
         {{ product_instance.thumbnail_set.all.first }}
         {{ product_instance.thumbnail_set.all.first.media }} -->
-        <a href='{{ product_instance.get_absolute_url }}'><img src='{{ product_instance.thumbnail_set.all.first.media.url }}'></a>
+        <a href='{{ product_instance.get_absolute_url }}'><img src='{{ product_instance|get_thumbnail:"micro" }}'></a>
     </li>
 
 {% empty %}
