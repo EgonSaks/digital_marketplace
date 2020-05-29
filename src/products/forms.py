@@ -10,13 +10,14 @@ PUBLISH_CHOISES = (
 )
 
 class ProductModelForm(forms.ModelForm):
+    tags = forms.CharField(label='Related tags', required=False)
     publish = forms.ChoiceField(widget=forms.RadioSelect,choices=PUBLISH_CHOISES, required=False)
-    title = forms.CharField(label='Your Title', widget=forms.TextInput(
-        attrs={
-            "class":"custom-class",
-            "placeholder":"Title",
-        }
-    ))
+    # title = forms.CharField(label='Your Title', widget=forms.TextInput(
+    #     attrs={
+    #         "class":"custom-class",
+    #         "placeholder":"Title",
+    #     }
+    # ))
     description = forms.CharField(widget=forms.Textarea(
         attrs={
             "class":"my-custom-class",
