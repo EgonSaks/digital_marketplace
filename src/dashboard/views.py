@@ -13,7 +13,7 @@ class DashboardView(View):
 		products = None
 		top_tags = None
 		try:
-			tag_views = request.user.tagview_set.all().order_by("-count")[:5] 
+			tag_views = request.user.tagview_set.all().order_by("-count")[:5]
 		except:
 			pass
 
@@ -28,7 +28,7 @@ class DashboardView(View):
 			top_tags = [x.tag for x in tag_views]
 			products = Product.objects.filter(tag__in=top_tags)
 			if owned:
-				products = products.exclude(pk__in=owned).distinct()
+				products = products.exclude(pk__in=owned)
 
 			if products.count() < 10:
 				products = Product.objects.all().order_by("?")
