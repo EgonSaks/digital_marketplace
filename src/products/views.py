@@ -83,7 +83,7 @@ class ProductDetailView(MultiSlugMixin, DetailView):
         obj = self.get_object()
         tags = obj.tag_set.all()
         for tag in tags:
-            new_view = TagView.objects.add_count(self.request.user, tags)
+            new_view = TagView.objects.add_count(self.request.user, tag)
         return context
 
 class ProductDownloadView(MultiSlugMixin, DetailView):
