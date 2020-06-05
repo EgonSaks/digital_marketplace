@@ -18,10 +18,12 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from checkout.views import CheckoutTestView
 from dashboard.views import DashboardView
 
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
+    path('test/', CheckoutTestView.as_view(), name='test'),
     path('admin/', admin.site.urls),
     path('products/', include(('products.urls', 'products'), namespace='products')),
     path('tags/', include(('tags.urls', 'tags'), namespace='tags')),
