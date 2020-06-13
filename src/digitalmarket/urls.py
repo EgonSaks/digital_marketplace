@@ -27,6 +27,7 @@ urlpatterns = [
     path('checkout/', CheckoutAjaxView.as_view(), name='checkout'),
     path('admin/', admin.site.urls),
     path('products/', include(('products.urls', 'products'), namespace='products')),
+    path('seller/', include(('sellers.urls', 'sellers'), namespace='sellers')),
     path('tags/', include(('tags.urls', 'tags'), namespace='tags')),
 ]
 

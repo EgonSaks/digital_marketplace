@@ -18,10 +18,8 @@ def download_media_location(instance, filename):
 
 
 class Product(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    managers = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='managers_product', blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    managers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='managers_product', blank=True)
     media = models.ImageField(blank=True,
             null=True,
             upload_to=download_media_location,
