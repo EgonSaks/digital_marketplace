@@ -11,15 +11,15 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 # Create your models here.
-
+from sellers.models import SellerAccount
 
 def download_media_location(instance, filename):
     return "%s/%s" % (instance.slug, filename)
 
-
 class Product(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    managers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='managers_product', blank=True)
+    seller = models.ForeignKey(SellerAccount, on_delete=models.CASCADE)
+    #user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    #managers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='managers_product', blank=True)
     media = models.ImageField(blank=True,
             null=True,
             upload_to=download_media_location,
