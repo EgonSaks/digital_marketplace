@@ -10,10 +10,10 @@ class ThumbnailInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ThumbnailInline]
-    list_display = ["__str__", "description", "price", "sales_price"]
+    list_display = ["__str__", "description", "price", "sale_price"]
     search_fields = ["title", "description"]
     list_filter = ["price"]
-    list_editable = ["sales_price"]
+    list_editable = ["sale_price"]
     class Meta:
         model = Product
 
