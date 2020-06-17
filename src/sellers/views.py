@@ -20,7 +20,7 @@ class SellerDashboard(LoginRequiredMixin, FormMixin, View):
             return self.form_invalid(form)
 
     def get(self, request, *args, **kwargs):
-        apply_form = self.get_form()#NewSellerForm()
+        apply_form = self.get_form() #NewSellerForm()
         account = SellerAccount.objects.filter(user=self.request.user)
         exists = account.exists()
         active = None
@@ -30,9 +30,11 @@ class SellerDashboard(LoginRequiredMixin, FormMixin, View):
             active = account.active
 
         context = {}
+
         #if the account doesn´t exists, show form
         #if exists and not active, show pending
         #if exists and active show dashboard data
+        
         if not exists and not active:
             context["title"] = "Apply for Account"
             context["apply_form"] = apply_form
