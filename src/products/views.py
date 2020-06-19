@@ -57,7 +57,7 @@ class ProductUpdateView(ProductManagerMixin, SubmitBtnMixin, MultiSlugMixin, Upd
 
     def get_initial(self):
         initial = super(ProductUpdateView, self).get_initial()
-        print(initial)
+        #print(initial)
         tags = self.get_object().tag_set.all()
         initial["tags"] = ", ".join([ x.title for x in tags])
         return initial
@@ -171,7 +171,7 @@ def detail_view(request, object_id=None):
 
 def list_view(request):
     # list of items
-    print(request)
+    #print(request)
     queryset = Product.objects.all()
     template = "list_view.html"
     context = {
