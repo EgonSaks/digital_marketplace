@@ -7,26 +7,20 @@ from django.views.generic.list import ListView
 from billing.models import Transaction
 from products.models import Product
 from digitalmarket.mixins import LoginRequiredMixin
-from .models import SellerAccount
 
+from .models import SellerAccount
+from .mixins import SellerAccountMixin
 from .forms import NewSellerForm
 
 
-class SellerTransactionListView(ListView):
+class SellerTransactionListView(SellerAccountMixin, ListView):
     model = Transaction
     template_name ="sellers/transaction_list_view.html"
 
     def get_queryset(self):
-        account = SellerAccount.objects.filter(user=self.request.user)
-        if account.exists():
-            #products = Product.objects.filter(seller=account)
-            #products = Product.objects.filter(seller__in=account)
-            #return Transaction.objects.filter(product__in=products)
-            return Transaction.objects.filter(product__seller__user=self.request.user)
-        return []
+        return self.get_transactions()
 
-
-class SellerDashboard(LoginRequiredMixin, FormMixin, View):
+class SellerDashboard(SellerAccountMixin, FormMixin, View):
     form_class = NewSellerForm
     success_url = "/seller/"
 
@@ -39,12 +33,11 @@ class SellerDashboard(LoginRequiredMixin, FormMixin, View):
 
     def get(self, request, *args, **kwargs):
         apply_form = self.get_form() #NewSellerForm()
-        account = SellerAccount.objects.filter(user=self.request.user)
-        exists = account.exists()
+        account = self.get_account()
+        exists = account
         active = None
 
         if exists:
-            account = account.first()
             active = account.active
 
         context = {}
@@ -60,11 +53,11 @@ class SellerDashboard(LoginRequiredMixin, FormMixin, View):
             context["title"] = "Account Pending"
         elif exists and active:
             context["title"] = "Seller Dashboard"
-            products = Product.objects.filter(seller=account)
-            context["products"] = products
-            context["transactions"] = Transaction.objects.filter(product__in=products)[:6]
+            #products = Product.objects.filter(seller=account)
+            context["products"] = self.get_products
+            context["transactions"] = self.get_transactions()[:6]
         else:
-            passs
+            pass
 
         return render(request, "sellers/dashboard.html", context)
 
