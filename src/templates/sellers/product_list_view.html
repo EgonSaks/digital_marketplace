@@ -13,19 +13,21 @@
 
     {% for instance in product_list %}
       <tr class="">
+          <td>{{ instance.id }}
+          </td>
           <td>
               <a href='{{ instance.get_absolute_url }}'>{{ instance.title }}</a>
           </td>
           <td>
           {% if instance|get_thumbnail:"micro" %}
           <a href='{{ instance.get_absolute_url }}'>
-              <img src='{{ instance|get_thumbnail:"micro" }}' />
+              <img src='{{ instance|get_thumbnail:"micro" }}' style='max-width:100px' />
           </a></br>
 
           {% endif %}
           </td>
           <td>{{ instance.price }}
-          </td>  
+          </td>
       </li>
     {% empty %}
       <li> No Products yet.</li>
