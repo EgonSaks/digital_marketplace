@@ -17,24 +17,23 @@ from digitalmarket.mixins import (
             SubmitBtnMixin
             )
 
+from sellers.mixins import SellerAccountMixin
 from tags.models import Tag
 
 from .forms import ProductModelForm
 from .mixins import ProductManagerMixin
 from .models import Product
 
-class ProductCreateView(LoginRequiredMixin, SubmitBtnMixin, CreateView):
+class ProductCreateView(SellerAccountMixin, SubmitBtnMixin, CreateView):
     model = Product
     template_name = "form.html"
     form_class = ProductModelForm
-    #success_url = "/products/"
     submit_btn = "Add Product"
 
     def form_valid(self, form):
-        user = self.request.user
-        form.instance.user = user
+        seller = self.get_account()
+        form.instance.seller = seller
         valid_data = super(ProductCreateView, self).form_valid(form)
-        form.instance.managers.add(user)
         tags = form.cleaned_data.get("tags")
         if tags:
             tags_list = tags.split(",")
@@ -45,14 +44,10 @@ class ProductCreateView(LoginRequiredMixin, SubmitBtnMixin, CreateView):
 
         return valid_data
 
-    # def get_success_url(self):
-    #     return reverse("product_list_view")
-
 class ProductUpdateView(ProductManagerMixin, SubmitBtnMixin, MultiSlugMixin, UpdateView):
     model = Product
     template_name = "form.html"
     form_class = ProductModelForm
-    #success_url = "/products/"
     submit_btn = "Update Product"
 
     def get_initial(self):
@@ -106,6 +101,21 @@ class ProductDownloadView(MultiSlugMixin, DetailView):
             return response
         else:
             raise Http404
+
+class SellerProductListView(SellerAccountMixin, ListView):
+    model = Product
+    template_name ="Sellers/product_list_view.html"
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(SellerProductListView, self).get_queryset(**kwargs)
+        qs = qs.filter(seller = self.get_account())
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(
+                    Q(title__icontains=query) |
+                    Q(description__icontains=query)
+                ).order_by('title')
+        return qs
 
 class ProductListView(ListView):
     model = Product

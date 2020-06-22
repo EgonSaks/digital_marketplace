@@ -10,8 +10,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', ProductListView.as_view(), name="list"),
-    path('add/', ProductCreateView.as_view(), name="create"),
+    path('', ProductListView.as_view(), name="list"), #products:list
     path('<int:pk>/', ProductDetailView.as_view(), name="detail"),
     path('<slug>/', ProductDetailView.as_view(), name="detail_slug"),
     path('<int:pk>/download/', ProductDownloadView.as_view(), name="download"),
