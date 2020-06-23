@@ -2,7 +2,7 @@
 {% load get_thumbnail %}
 
 {% block content %}
-<h1>Products</h1>
+<h1>My Seller Products</h1>
 <p>
 <form method"GET" action="">
 <input type='text' name='q' placeholder='Search' value=' {{ request.Get.q }}'>
@@ -27,6 +27,9 @@
           {% endif %}
           </td>
           <td>{{ instance.price }}
+          </td>
+          </td>
+          <td><a href='{{ instance.get_edit_url }}'>Edit</a> | <a href='#'>Delete</a>
           </td>
       </li>
     {% empty %}
