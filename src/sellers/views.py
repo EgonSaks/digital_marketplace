@@ -12,6 +12,18 @@ from .models import SellerAccount
 from .mixins import SellerAccountMixin
 from .forms import NewSellerForm
 
+from django.views.generic.base import RedirectView
+from django.shortcuts import get_object_or_404
+
+class SellerProductDetailRedirectView(RedirectView):
+
+    permanent = True
+    #query_string = True
+    #pattern_name = 'article-detail'
+
+    def get_redirect_url(self, *args, **kwargs):
+        obj = get_object_or_404(Product, pk=kwargs['pk'])
+        return obj.get_absolute_url()
 
 class SellerTransactionListView(SellerAccountMixin, ListView):
     model = Transaction

@@ -9,13 +9,15 @@ from products.views import (
 
 from .views import (
         SellerDashboard,
-        SellerTransactionListView
+        SellerTransactionListView,
+        SellerProductDetailRedirectView
 )
 
 urlpatterns = [
     path('', SellerDashboard.as_view(), name="dashboard"),
     path('transactions/', SellerTransactionListView.as_view(), name="transactions"),
     path('products/', SellerProductListView.as_view(), name="product_list"),#sellers:product_list
-    path('<int:pk>/edit/', ProductUpdateView.as_view(), name="product_edit"),
+    path('products/<int:pk>/', SellerProductDetailRedirectView.as_view()),
+    path('products/<int:pk>/edit/', ProductUpdateView.as_view(), name="product_edit"),
     path('products/add/', ProductCreateView.as_view(), name="product_create"),
 ]
