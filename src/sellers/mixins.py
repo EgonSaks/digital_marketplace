@@ -1,4 +1,4 @@
-
+import datetime
 from billing.models import Transaction
 from digitalmarket.mixins import LoginRequiredMixin
 from products.models import Product
@@ -28,3 +28,9 @@ class SellerAccountMixin(LoginRequiredMixin, object):
         products = self.get_products()
         transactions = Transaction.objects.filter(product__in=products)
         return transactions
+
+    def get_transactions_today(self):
+        today = datetime.date.today()
+        today_min = datetime.datetime.combine(today, datetime.time.min)
+        today_max = datetime.datetime.combine(today, datetime.time.max)
+        return self.get_transactions().filter(timestamp__range=(today_min, today_max))
