@@ -66,6 +66,8 @@ class SellerDashboard(SellerAccountMixin, FormMixin, View):
             context["products"] = self.get_products()
             transactions_today = self.get_transactions_today()
             context["transactions_today"] = transactions_today
+            context["today_sales"] = self.get_today_sales()
+            context["total_sales"] = self.get_total_sales()
             context["transactions"] = self.get_transactions().exclude(pk__in=transactions_today)[:6]
         else:
             pass
