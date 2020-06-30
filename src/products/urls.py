@@ -7,6 +7,7 @@ from .views import (
         ProductDownloadView,
         ProductListView,
         ProductUpdateView,
+        ProductRatingAjaxView,
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path('<slug>/download/', ProductDownloadView.as_view(), name="download_slug"),
     path('<int:pk>/edit/', ProductUpdateView.as_view(), name="update"),
     path('<slug>/edit/', ProductUpdateView.as_view(), name="update_slug"),
+    path('ajax/rating/', ProductRatingAjaxView.as_view(), name="ajax_rating"),
 ]
