@@ -20,6 +20,7 @@ from django.contrib import admin
 
 from checkout.views import CheckoutTestView, CheckoutAjaxView
 from dashboard.views import DashboardView
+from products.views import UserLibraryListView
 
 urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
@@ -29,6 +30,7 @@ urlpatterns = [
     path('products/', include(('products.urls', 'products'), namespace='products')),
     path('seller/', include(('sellers.urls', 'sellers'), namespace='sellers')),
     path('tags/', include(('tags.urls', 'tags'), namespace='tags')),
+    path('library/', UserLibraryListView.as_view(), name='library'),
 ]
 
 if settings.DEBUG:
