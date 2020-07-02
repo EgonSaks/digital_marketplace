@@ -168,6 +168,20 @@ class SellerProductListView(SellerAccountMixin, ListView):
                 ).order_by('title')
         return qs
 
+class VendorListView(ListView):
+    model = Product
+    template_name = "products/product_list.html"
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(VendorListView, self).get_queryset(**kwargs).filter(seller__user__username='egonsaks')
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(
+                    Q(title__icontains=query) |
+                    Q(description__icontains=query)
+                ).order_by('title')
+        return qs
+
 class ProductListView(ListView):
     model = Product
 
