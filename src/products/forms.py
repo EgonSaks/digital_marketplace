@@ -33,6 +33,7 @@ class ProductModelForm(forms.ModelForm):
             "title",
             "description",
             "price",
+            "media"
         ]
 
     def clean(self, *args, **kwargs):
