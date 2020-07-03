@@ -189,3 +189,16 @@ class ProductRating(models.Model):
     class Meta:
         verbose_name = 'Product Rating'
         verbose_name_plural = 'Products Ratings'
+
+class CuratedProducts(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    section_name = models.CharField(max_length=20, null=True, blank=True)
+    products = models.ManyToManyField(Product, blank=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.section_name
+
+    class Meta:
+        verbose_name = 'Curated Product'
+        verbose_name_plural = 'Curated Products'
