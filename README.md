@@ -4,20 +4,23 @@ Including: Product search, TagViews, Groups, Users, Billing section with Transac
 Sellers section with Sellers Accounts. Tags section with Tags.
 
 To explore the project:
-
+```
 - Clone the project
 - Create virtual-environment
 - pip install -r requirements.txt
 - python manage.py migrate
 - python manage.py createsuperuser
 - python manage.py runserver to run it localy 
+```
 
 or deploy it to AWS, Heroku, PythonAnywhere etc
 
+```
 - Make a few changes to your project settings.
 - Choose an environment for hosting the Django app.
 - Choose an environment for hosting any static files.
 - Set up a production-level infrastructure for serving your website.
+```
 
 ### Products list
 
